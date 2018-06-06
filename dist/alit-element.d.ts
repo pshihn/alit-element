@@ -8,12 +8,12 @@ export declare class AlitElement extends LitElement {
      * Get element with specified if in the element's shadow root
      * @param id Id of element
      */
-    $(id: string): HTMLElement | null;
+    $(id: string): HTMLElement;
     /**
      * Find first element macthing the slector in the element's shadow root.
      * @param selector query selector string
      */
-    $$(selector: string): HTMLElement | null;
+    $$(selector: string): HTMLElement;
     /**
      * Find all elements matching the selector in the element's shadow root.
      * @param selector query selector string

@@ -1,6 +1,6 @@
 {
   "name": "alit-element",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple wrapper for lit-element with some enhanced functions",
   "main": "dist/alit-element.js",
   "types": "dist/alit-element.d.ts",

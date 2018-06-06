@@ -10,13 +10,11 @@ export class AlitElement extends LitElement {
    * Get element with specified if in the element's shadow root
    * @param id Id of element
    */
-  $(id: string): HTMLElement | null {
+  $(id: string): HTMLElement {
     if (!this._$[id]) {
       const e = this.shadowRoot.querySelector(`#${id}`);
       if (e) {
         this._$[id] = e;
-      } else {
-        return null;
       }
     }
     return this._$[id];
@@ -26,7 +24,7 @@ export class AlitElement extends LitElement {
    * Find first element macthing the slector in the element's shadow root.
    * @param selector query selector string
    */
-  $$(selector: string): HTMLElement | null {
+  $$(selector: string): HTMLElement {
     return this.shadowRoot.querySelector(selector);
   }
 

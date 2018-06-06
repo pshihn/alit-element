@@ -49,3 +49,7 @@ export class AlitCard extends AlitElement {
     `;
   }
 }
+
+// export function as<T extends GuildElement>(node: HTMLElement): T {
+//   return (node as any) as T;
+// }

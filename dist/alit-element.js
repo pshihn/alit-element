@@ -17,9 +17,6 @@ export class AlitElement extends LitElement {
             if (e) {
                 this._$[id] = e;
             }
-            else {
-                return null;
-            }
         }
         return this._$[id];
     }

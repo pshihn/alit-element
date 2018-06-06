@@ -78,3 +78,6 @@ AlitCard = __decorate([
     element('alit-card')
 ], AlitCard);
 export { AlitCard };
+// export function as<T extends GuildElement>(node: HTMLElement): T {
+//   return (node as any) as T;
+// }
