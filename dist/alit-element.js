@@ -10,7 +10,7 @@ export class AlitElement extends LitElement {
     static get __listeners() { return []; }
     static get __observers() { return {}; }
     /**
-     * Get element with specified if in the element's shadow root
+     * Get element with specified ID in the element's shadow root
      * @param id Id of element
      */
     $(id) {

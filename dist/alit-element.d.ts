@@ -20,7 +20,7 @@ export declare class AlitElement extends LitElement {
     };
     private _$;
     /**
-     * Get element with specified if in the element's shadow root
+     * Get element with specified ID in the element's shadow root
      * @param id Id of element
      */
     $(id: string): HTMLElement;
@@ -33,7 +33,7 @@ export declare class AlitElement extends LitElement {
      * Find all elements matching the selector in the element's shadow root.
      * @param selector query selector string
      */
-    $$All(selector: string): any;
+    $$All(selector: string): NodeList;
     /**
      * Fires a custom event with the specified name
      * @param name Name of the event

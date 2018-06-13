@@ -23,7 +23,7 @@ export class AlitElement extends LitElement {
   private _$: { [id: string]: HTMLElement } = {};
 
   /**
-   * Get element with specified if in the element's shadow root
+   * Get element with specified ID in the element's shadow root
    * @param id Id of element
    */
   $(id: string): HTMLElement {
@@ -48,7 +48,7 @@ export class AlitElement extends LitElement {
    * Find all elements matching the selector in the element's shadow root.
    * @param selector query selector string
    */
-  $$All(selector: string) {
+  $$All(selector: string): NodeList {
     return this.shadowRoot.querySelectorAll(selector);
   }
 
