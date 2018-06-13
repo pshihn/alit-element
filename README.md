@@ -5,7 +5,7 @@ It also defines decorators, similar to [polymer-decorators](https://github.com/P
 
 ## Sample Code
 
-Here's some sample code that showcases decorators
+Here's some sample code that showcases decorators. ([full code](https://github.com/pshihn/alit-element/blob/master/src/example/card.ts))
 
 ```javascript
 @element('alit-card')
