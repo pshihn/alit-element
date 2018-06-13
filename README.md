@@ -136,7 +136,7 @@ ageChanged(records: ChangeRecord[]) {
 }
 ```
 
-**ChangeRecord** is defined as follows: 
+A `ChangeRecord` is defined as follows: 
 ```javascript
 interface ChangeRecord {
   path: string; // property name 
