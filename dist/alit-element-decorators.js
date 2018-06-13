@@ -78,6 +78,11 @@ export function listen(eventName, target) {
         });
     };
 }
+/**
+ * Decortator to define an observer that gets called back
+ * whenever any of the specified property is updated
+ * @param properties list of properties to observe
+ */
 export function observe(...properties) {
     return (prototype, methodName) => {
         const constructor = prototype.constructor;

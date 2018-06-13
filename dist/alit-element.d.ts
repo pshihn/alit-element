@@ -7,12 +7,12 @@ export interface EventListenerDeclaration {
     target: string | EventTarget;
     handler: (event?: Event) => void;
 }
-export declare type ObserveHandler = (changeRecords: ChangeRecord[]) => void;
 export interface ChangeRecord {
     path: string;
     value: any;
     oldValue: any;
 }
+export declare type ObserveHandler = (changeRecords: ChangeRecord[]) => void;
 export declare class AlitElement extends LitElement {
     static readonly __listeners: EventListenerDeclaration[];
     static readonly __observers: {
