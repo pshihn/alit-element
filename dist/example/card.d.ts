@@ -7,6 +7,7 @@ export declare class AlitCard extends AlitElement {
     description: string;
     card?: HTMLDivElement;
     toggleBorder(): void;
+    documentClick(): void;
     private borderShowing;
     _render(): TemplateResult;
 }

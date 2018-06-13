@@ -22,4 +22,9 @@ export declare function query(selector: string): (prototype: AlitPrototype, prop
  * @param selector selector query
  */
 export declare function queryAll(selector: string): (prototype: AlitPrototype, propertyName: string) => void;
-export declare function listen(eventName: string, selector: string): (prototype: any, methodName: string) => void;
+/**
+ * Decorator to add event handlers
+ * @param eventName name of event, e.g. 'click'
+ * @param selector EventTarget or a selector to the node to listen to e.g. '#myButton'
+ */
+export declare function listen(eventName: string, target: string | EventTarget): (prototype: any, methodName: string) => void;

@@ -5,7 +5,7 @@ export { TemplateResult } from 'lit-html/lit-html.js';
 
 export interface EventListenerDeclaration {
   eventName: string;
-  selector: string;
+  target: string | EventTarget;
   handler: (event?: Event) => void;
 }
 
@@ -76,13 +76,11 @@ export class AlitElement extends LitElement {
     const listeners = (<typeof AlitElement>this.constructor).listeners;
     for (const listener of listeners) {
       if (listener.eventName && listener.handler) {
-        const node = this.$$(listener.selector);
-        if (node) {
-          node.addEventListener(listener.eventName, (e) => {
+        const target = (typeof listener.target === 'string') ? this.$$(listener.target) : listener.target;
+        if (target && target.addEventListener) {
+          target.addEventListener(listener.eventName, (e) => {
             listener.handler.call(this, e);
           });
-        } else {
-          console.warn(`No node found with selector: ${listener.selector}`);
         }
       }
     }

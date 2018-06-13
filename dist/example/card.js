@@ -20,6 +20,9 @@ let AlitCard = class AlitCard extends AlitElement {
         this.borderShowing = !this.borderShowing;
         this.card.style.border = this.borderShowing ? '2px solid' : 'none';
     }
+    documentClick() {
+        console.log('document clicked');
+    }
     _render() {
         return html `
     <style>
@@ -91,6 +94,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AlitCard.prototype, "toggleBorder", null);
+__decorate([
+    listen('click', document),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AlitCard.prototype, "documentClick", null);
 AlitCard = __decorate([
     element('alit-card')
 ], AlitCard);

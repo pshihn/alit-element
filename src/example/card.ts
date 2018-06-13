@@ -18,6 +18,11 @@ export class AlitCard extends AlitElement {
     this.card!.style.border = this.borderShowing ? '2px solid' : 'none';
   }
 
+  @listen('click', document)
+  documentClick() {
+    console.log('document clicked');
+  }
+
   private borderShowing = false;
 
   _render(): TemplateResult {

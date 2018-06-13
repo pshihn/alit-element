@@ -61,7 +61,12 @@ export function queryAll(selector) {
         });
     };
 }
-export function listen(eventName, selector) {
+/**
+ * Decorator to add event handlers
+ * @param eventName name of event, e.g. 'click'
+ * @param selector EventTarget or a selector to the node to listen to e.g. '#myButton'
+ */
+export function listen(eventName, target) {
     return (prototype, methodName) => {
         const constructor = prototype.constructor;
         if (!constructor.hasOwnProperty('listeners')) {
@@ -69,7 +74,7 @@ export function listen(eventName, selector) {
         }
         const listeners = constructor.listeners;
         listeners.push({
-            eventName, selector, handler: prototype[methodName]
+            eventName, target, handler: prototype[methodName]
         });
     };
 }

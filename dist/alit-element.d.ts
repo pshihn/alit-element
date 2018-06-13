@@ -4,7 +4,7 @@ export { html } from '@polymer/lit-element/lit-element.js';
 export { TemplateResult } from 'lit-html/lit-html.js';
 export interface EventListenerDeclaration {
     eventName: string;
-    selector: string;
+    target: string | EventTarget;
     handler: (event?: Event) => void;
 }
 export declare class AlitElement extends LitElement {
