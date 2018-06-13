@@ -42,3 +42,32 @@ export class AlitCard extends AlitElement {
     `;
   }
 ```
+
+## Methods
+
+#### $(id: string): HTMLElement
+Get element with specified ID in the element's shadow root.
+```javascript
+const button = this.$('toggleButton');
+```
+
+#### $$(selector: string): HTMLElement
+Find first element macthing the slector in the element's shadow root.
+```javascript
+const card = this.$$('.card');
+```
+
+#### $$All(selector: string): NodeList 
+Find all elements matching the selector in the element's shadow root.
+```javascript
+const allCards = this.$$All('.card');
+```
+
+#### fireEvent(name: string, detail?: any, bubbles: boolean = true, composed: boolean = true)
+Utility method to fire custom events
+```javascript
+this.fireEvent('selected');
+this.fireEvent('selected', {selection: this.currentSelection});
+```
+
+
