@@ -7,15 +7,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { AlitElement, html, element, property } from '../alit-element';
+import { AlitElement, html } from '../alit-element';
+import { element, property, query, listen } from '../alit-element-decorators';
 let AlitCard = class AlitCard extends AlitElement {
     constructor() {
         super(...arguments);
         this.age = 30;
         this.description = 'This is the default description';
+        this.borderShowing = false;
+    }
+    toggleBorder() {
+        this.borderShowing = !this.borderShowing;
+        this.card.style.border = this.borderShowing ? '2px solid' : 'none';
     }
     _render() {
-        console.log(this.constructor.properties);
         return html `
     <style>
       :host {
@@ -27,7 +32,6 @@ let AlitCard = class AlitCard extends AlitElement {
       .card {
         padding: 20px;
         display: inline-block;
-        box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.3);
       }
     
       .name {
@@ -50,6 +54,9 @@ let AlitCard = class AlitCard extends AlitElement {
       <div class="name">${this.name} (${this.age})</div>
       <div class="job">${this.job}</div>
       <p>${this.description}</p>
+      <p>
+        <button id="button">Toggle border</button>
+      </p>
     </div>
     `;
     }
@@ -74,10 +81,17 @@ __decorate([
     property(),
     __metadata("design:type", String)
 ], AlitCard.prototype, "description", void 0);
+__decorate([
+    query('.card'),
+    __metadata("design:type", HTMLDivElement)
+], AlitCard.prototype, "card", void 0);
+__decorate([
+    listen('click', '#button'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AlitCard.prototype, "toggleBorder", null);
 AlitCard = __decorate([
     element('alit-card')
 ], AlitCard);
 export { AlitCard };
-// export function as<T extends GuildElement>(node: HTMLElement): T {
-//   return (node as any) as T;
-// }

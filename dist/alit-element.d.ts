@@ -2,7 +2,13 @@ import 'reflect-metadata';
 import { LitElement } from '@polymer/lit-element/lit-element.js';
 export { html } from '@polymer/lit-element/lit-element.js';
 export { TemplateResult } from 'lit-html/lit-html.js';
+export interface EventListenerDeclaration {
+    eventName: string;
+    selector: string;
+    handler: (event?: Event) => void;
+}
 export declare class AlitElement extends LitElement {
+    static readonly listeners: EventListenerDeclaration[];
     private _$;
     /**
      * Get element with specified if in the element's shadow root
@@ -32,9 +38,5 @@ export declare class AlitElement extends LitElement {
      * this casts the current element as aan HTMLElelemnt
      */
     readonly node: HTMLElement;
+    connectedCallback(): void;
 }
-/***********************************
- * Functions to support decorators
- ***********************************/
-export declare function element(name: string): (c: any) => void;
-export declare function property(): (prototype: any, propertyName: string) => void;

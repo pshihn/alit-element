@@ -3,7 +3,14 @@ import { LitElement } from '@polymer/lit-element/lit-element.js';
 export { html } from '@polymer/lit-element/lit-element.js';
 export { TemplateResult } from 'lit-html/lit-html.js';
 
+export interface EventListenerDeclaration {
+  eventName: string;
+  selector: string;
+  handler: (event?: Event) => void;
+}
+
 export class AlitElement extends LitElement {
+  static get listeners(): EventListenerDeclaration[] { return []; }
   private _$: { [id: string]: HTMLElement } = {};
 
   /**
@@ -63,35 +70,21 @@ export class AlitElement extends LitElement {
   get node(): HTMLElement {
     return (this as any) as HTMLElement;
   }
-}
 
-/***********************************
- * Functions to support decorators
- ***********************************/
-
-export function element(name: string) {
-  return (c: any) => {
-    if (name) {
-      window.customElements.define(name, c);
-    }
-  };
-}
-
-export function property() {
-  return (prototype: any, propertyName: string) => {
-    const constructor = prototype.constructor;
-    if (!constructor.hasOwnProperty('properties')) {
-      Object.defineProperty(constructor, 'properties', { value: {} });
-    }
-    constructor.properties[propertyName] = { type: getType(prototype, propertyName) || String };
-  };
-}
-
-function getType(prototype: any, propertyName: string): any {
-  if (Reflect.hasMetadata) {
-    if (Reflect.hasMetadata('design:type', prototype, propertyName)) {
-      return Reflect.getMetadata('design:type', prototype, propertyName);
+  connectedCallback() {
+    super.connectedCallback();
+    const listeners = (<typeof AlitElement>this.constructor).listeners;
+    for (const listener of listeners) {
+      if (listener.eventName && listener.handler) {
+        const node = this.$$(listener.selector);
+        if (node) {
+          node.addEventListener(listener.eventName, (e) => {
+            listener.handler.call(this, e);
+          });
+        } else {
+          console.warn(`No node found with selector: ${listener.selector}`);
+        }
+      }
     }
   }
-  return null;
 }

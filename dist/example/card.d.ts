@@ -5,5 +5,8 @@ export declare class AlitCard extends AlitElement {
     age: number;
     image?: string;
     description: string;
+    card?: HTMLDivElement;
+    toggleBorder(): void;
+    private borderShowing;
     _render(): TemplateResult;
 }

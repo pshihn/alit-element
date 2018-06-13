@@ -1,4 +1,5 @@
-import { AlitElement, html, TemplateResult, element, property } from '../alit-element';
+import { AlitElement, html, TemplateResult } from '../alit-element';
+import { element, property, query, listen } from '../alit-element-decorators';
 
 @element('alit-card')
 export class AlitCard extends AlitElement {
@@ -8,9 +9,18 @@ export class AlitCard extends AlitElement {
   @property() image?: string;
   @property() description: string = 'This is the default description';
 
+  @query('.card')
+  card?: HTMLDivElement;
+
+  @listen('click', '#button')
+  toggleBorder() {
+    this.borderShowing = !this.borderShowing;
+    this.card!.style.border = this.borderShowing ? '2px solid' : 'none';
+  }
+
+  private borderShowing = false;
 
   _render(): TemplateResult {
-    console.log((this.constructor as any).properties);
     return html`
     <style>
       :host {
@@ -22,7 +32,6 @@ export class AlitCard extends AlitElement {
       .card {
         padding: 20px;
         display: inline-block;
-        box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.3);
       }
     
       .name {
@@ -45,11 +54,10 @@ export class AlitCard extends AlitElement {
       <div class="name">${this.name} (${this.age})</div>
       <div class="job">${this.job}</div>
       <p>${this.description}</p>
+      <p>
+        <button id="button">Toggle border</button>
+      </p>
     </div>
     `;
   }
 }
-
-// export function as<T extends GuildElement>(node: HTMLElement): T {
-//   return (node as any) as T;
-// }

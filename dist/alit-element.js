@@ -7,6 +7,7 @@ export class AlitElement extends LitElement {
         super(...arguments);
         this._$ = {};
     }
+    static get listeners() { return []; }
     /**
      * Get element with specified if in the element's shadow root
      * @param id Id of element
@@ -60,31 +61,21 @@ export class AlitElement extends LitElement {
     get node() {
         return this;
     }
-}
-/***********************************
- * Functions to support decorators
- ***********************************/
-export function element(name) {
-    return (c) => {
-        if (name) {
-            window.customElements.define(name, c);
-        }
-    };
-}
-export function property() {
-    return (prototype, propertyName) => {
-        const constructor = prototype.constructor;
-        if (!constructor.hasOwnProperty('properties')) {
-            Object.defineProperty(constructor, 'properties', { value: {} });
-        }
-        constructor.properties[propertyName] = { type: getType(prototype, propertyName) || String };
-    };
-}
-function getType(prototype, propertyName) {
-    if (Reflect.hasMetadata) {
-        if (Reflect.hasMetadata('design:type', prototype, propertyName)) {
-            return Reflect.getMetadata('design:type', prototype, propertyName);
+    connectedCallback() {
+        super.connectedCallback();
+        const listeners = this.constructor.listeners;
+        for (const listener of listeners) {
+            if (listener.eventName && listener.handler) {
+                const node = this.$$(listener.selector);
+                if (node) {
+                    node.addEventListener(listener.eventName, (e) => {
+                        listener.handler.call(this, e);
+                    });
+                }
+                else {
+                    console.warn(`No node found with selector: ${listener.selector}`);
+                }
+            }
         }
     }
-    return null;
 }
