@@ -7,7 +7,8 @@ export class AlitElement extends LitElement {
         super(...arguments);
         this._$ = {};
     }
-    static get listeners() { return []; }
+    static get __listeners() { return []; }
+    static get __observers() { return {}; }
     /**
      * Get element with specified if in the element's shadow root
      * @param id Id of element
@@ -63,7 +64,7 @@ export class AlitElement extends LitElement {
     }
     connectedCallback() {
         super.connectedCallback();
-        const listeners = this.constructor.listeners;
+        const listeners = this.constructor.__listeners;
         for (const listener of listeners) {
             if (listener.eventName && listener.handler) {
                 const target = (typeof listener.target === 'string') ? this.$$(listener.target) : listener.target;
@@ -74,5 +75,36 @@ export class AlitElement extends LitElement {
                 }
             }
         }
+    }
+    _propertiesChanged(currentProps, changedProps, oldProps) {
+        const observers = this.constructor.__observers;
+        const map = new Map();
+        for (const propName in changedProps) {
+            const handlers = observers[propName];
+            if (handlers && handlers.length) {
+                const changeRecord = {
+                    path: propName,
+                    value: changedProps[propName],
+                    oldValue: oldProps[propName]
+                };
+                for (const handler of handlers) {
+                    if (!map.has(handler)) {
+                        map.set(handler, [changeRecord]);
+                    }
+                    else {
+                        map.get(handler).push(changeRecord);
+                    }
+                }
+            }
+        }
+        for (const handler of map.keys()) {
+            try {
+                handler.call(this, map.get(handler));
+            }
+            catch (err) {
+                console.warn(err);
+            }
+        }
+        super._propertiesChanged(currentProps, changedProps, oldProps);
     }
 }

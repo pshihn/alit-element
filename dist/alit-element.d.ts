@@ -7,8 +7,17 @@ export interface EventListenerDeclaration {
     target: string | EventTarget;
     handler: (event?: Event) => void;
 }
+export declare type ObserveHandler = (changeRecords: ChangeRecord[]) => void;
+export interface ChangeRecord {
+    path: string;
+    value: any;
+    oldValue: any;
+}
 export declare class AlitElement extends LitElement {
-    static readonly listeners: EventListenerDeclaration[];
+    static readonly __listeners: EventListenerDeclaration[];
+    static readonly __observers: {
+        [name: string]: ObserveHandler[];
+    };
     private _$;
     /**
      * Get element with specified if in the element's shadow root
@@ -39,4 +48,5 @@ export declare class AlitElement extends LitElement {
      */
     readonly node: HTMLElement;
     connectedCallback(): void;
+    _propertiesChanged(currentProps: object, changedProps: object, oldProps: object): void;
 }

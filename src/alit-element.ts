@@ -9,8 +9,17 @@ export interface EventListenerDeclaration {
   handler: (event?: Event) => void;
 }
 
+export interface ChangeRecord {
+  path: string;
+  value: any;
+  oldValue: any;
+}
+
+export type ObserveHandler = (changeRecords: ChangeRecord[]) => void;
+
 export class AlitElement extends LitElement {
-  static get listeners(): EventListenerDeclaration[] { return []; }
+  static get __listeners(): EventListenerDeclaration[] { return []; }
+  static get __observers(): { [name: string]: ObserveHandler[] } { return {}; }
   private _$: { [id: string]: HTMLElement } = {};
 
   /**
@@ -73,7 +82,7 @@ export class AlitElement extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    const listeners = (<typeof AlitElement>this.constructor).listeners;
+    const listeners = (<typeof AlitElement>this.constructor).__listeners;
     for (const listener of listeners) {
       if (listener.eventName && listener.handler) {
         const target = (typeof listener.target === 'string') ? this.$$(listener.target) : listener.target;
@@ -84,5 +93,35 @@ export class AlitElement extends LitElement {
         }
       }
     }
+  }
+
+  _propertiesChanged(currentProps: object, changedProps: object, oldProps: object): void {
+    const observers = (<typeof AlitElement>this.constructor).__observers;
+    const map = new Map<ObserveHandler, ChangeRecord[]>();
+    for (const propName in changedProps) {
+      const handlers = observers[propName];
+      if (handlers && handlers.length) {
+        const changeRecord: ChangeRecord = {
+          path: propName,
+          value: changedProps[propName],
+          oldValue: oldProps[propName]
+        };
+        for (const handler of handlers) {
+          if (!map.has(handler)) {
+            map.set(handler, [changeRecord]);
+          } else {
+            map.get(handler)!.push(changeRecord);
+          }
+        }
+      }
+    }
+    for (const handler of map.keys()) {
+      try {
+        handler.call(this, map.get(handler));
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+    super._propertiesChanged(currentProps, changedProps, oldProps);
   }
 }

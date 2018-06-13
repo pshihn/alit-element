@@ -1,5 +1,5 @@
-import { AlitElement, html, TemplateResult } from '../alit-element';
-import { element, property, query, listen } from '../alit-element-decorators';
+import { AlitElement, html, TemplateResult, ChangeRecord } from '../alit-element';
+import { element, property, query, listen, observe } from '../alit-element-decorators';
 
 @element('alit-card')
 export class AlitCard extends AlitElement {
@@ -12,10 +12,23 @@ export class AlitCard extends AlitElement {
   @query('.card')
   card?: HTMLDivElement;
 
-  @listen('click', '#button')
+  @listen('click', '#toggleButton')
   toggleBorder() {
     this.borderShowing = !this.borderShowing;
     this.card!.style.border = this.borderShowing ? '2px solid' : 'none';
+  }
+
+  @listen('click', '#randomizeButton')
+  randomizeAge() {
+    this.age = Math.round(Math.random() * 60 + 20);
+    this.description = `This guy is aged ${this.age}`;
+  }
+
+  @observe('age', 'description')
+  ageChanged(records: ChangeRecord[]) {
+    for (const r of records) {
+      console.log(`${r.path} changed from '${r.oldValue}' to '${r.value}'`);
+    }
   }
 
   @listen('click', document)
@@ -60,7 +73,8 @@ export class AlitCard extends AlitElement {
       <div class="job">${this.job}</div>
       <p>${this.description}</p>
       <p>
-        <button id="button">Toggle border</button>
+        <button id="toggleButton">Toggle border</button>
+        <button id="randomizeButton">Randomize age</button>
       </p>
     </div>
     `;

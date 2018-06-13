@@ -28,3 +28,4 @@ export declare function queryAll(selector: string): (prototype: AlitPrototype, p
  * @param selector EventTarget or a selector to the node to listen to e.g. '#myButton'
  */
 export declare function listen(eventName: string, target: string | EventTarget): (prototype: any, methodName: string) => void;
+export declare function observe(...properties: string[]): (prototype: any, methodName: string) => void;

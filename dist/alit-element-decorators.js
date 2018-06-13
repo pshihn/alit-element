@@ -69,12 +69,27 @@ export function queryAll(selector) {
 export function listen(eventName, target) {
     return (prototype, methodName) => {
         const constructor = prototype.constructor;
-        if (!constructor.hasOwnProperty('listeners')) {
-            Object.defineProperty(constructor, 'listeners', { value: [] });
+        if (!constructor.hasOwnProperty('__listeners')) {
+            Object.defineProperty(constructor, '__listeners', { value: [] });
         }
-        const listeners = constructor.listeners;
+        const listeners = constructor.__listeners;
         listeners.push({
             eventName, target, handler: prototype[methodName]
         });
+    };
+}
+export function observe(...properties) {
+    return (prototype, methodName) => {
+        const constructor = prototype.constructor;
+        if (!constructor.hasOwnProperty('__observers')) {
+            Object.defineProperty(constructor, '__observers', { value: {} });
+        }
+        const observers = constructor.__observers;
+        for (const prop of properties) {
+            if (!observers[prop]) {
+                observers[prop] = [];
+            }
+            observers[prop].push(prototype[methodName]);
+        }
     };
 }

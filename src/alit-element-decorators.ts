@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { AlitElement, EventListenerDeclaration } from './alit-element';
+import { AlitElement, EventListenerDeclaration, ObserveHandler } from './alit-element';
 
 export interface AlitPrototype extends AlitElement { }
 
@@ -78,12 +78,33 @@ export function queryAll(selector: string) {
 export function listen(eventName: string, target: string | EventTarget) {
   return (prototype: any, methodName: string) => {
     const constructor = prototype.constructor;
-    if (!constructor.hasOwnProperty('listeners')) {
-      Object.defineProperty(constructor, 'listeners', { value: [] });
+    if (!constructor.hasOwnProperty('__listeners')) {
+      Object.defineProperty(constructor, '__listeners', { value: [] });
     }
-    const listeners: EventListenerDeclaration[] = constructor.listeners;
+    const listeners: EventListenerDeclaration[] = constructor.__listeners;
     listeners.push({
       eventName, target, handler: prototype[methodName]
     });
+  };
+}
+
+/**
+ * Decortator to define an observer that gets called back 
+ * whenever any of the specified property is updated
+ * @param properties list of properties to observe
+ */
+export function observe(...properties: string[]) {
+  return (prototype: any, methodName: string) => {
+    const constructor = prototype.constructor;
+    if (!constructor.hasOwnProperty('__observers')) {
+      Object.defineProperty(constructor, '__observers', { value: {} });
+    }
+    const observers: { [name: string]: ObserveHandler[] } = constructor.__observers;
+    for (const prop of properties) {
+      if (!observers[prop]) {
+        observers[prop] = [];
+      }
+      observers[prop].push(prototype[methodName]);
+    }
   };
 }
