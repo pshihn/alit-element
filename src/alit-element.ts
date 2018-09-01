@@ -28,7 +28,7 @@ export class AlitElement extends LitElement {
    */
   $(id: string): HTMLElement {
     if (!this._$[id]) {
-      const e = this.shadowRoot.querySelector(`#${id}`);
+      const e = this.shadowRoot!.querySelector(`#${id}`) as HTMLElement;
       if (e) {
         this._$[id] = e;
       }
@@ -41,7 +41,7 @@ export class AlitElement extends LitElement {
    * @param selector query selector string
    */
   $$(selector: string): HTMLElement {
-    return this.shadowRoot.querySelector(selector);
+    return this.shadowRoot!.querySelector(selector) as HTMLElement;
   }
 
   /**
@@ -49,7 +49,7 @@ export class AlitElement extends LitElement {
    * @param selector query selector string
    */
   $$All(selector: string): NodeList {
-    return this.shadowRoot.querySelectorAll(selector);
+    return this.shadowRoot!.querySelectorAll(selector);
   }
 
   /**

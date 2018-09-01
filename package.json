@@ -1,6 +1,6 @@
 {
   "name": "alit-element",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A simple wrapper for lit-element with some enhanced functions",
   "main": "dist/alit-element.js",
   "types": "dist/alit-element.d.ts",
@@ -23,12 +23,12 @@
   },
   "homepage": "https://github.com/pshihn/alit-element#readme",
   "dependencies": {
-    "@polymer/lit-element": "^0.5.1"
+    "@polymer/lit-element": "^0.5.2"
   },
   "devDependencies": {
-    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "@webcomponents/webcomponentsjs": "^2.1.1",
     "reflect-metadata": "^0.1.12",
-    "tslint": "^5.10.0",
-    "typescript": "^2.9.1"
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2"
   }
 }
