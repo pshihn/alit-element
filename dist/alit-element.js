@@ -3,10 +3,6 @@ import { LitElement } from '@polymer/lit-element/lit-element.js';
 export { html } from '@polymer/lit-element/lit-element.js';
 export { TemplateResult } from 'lit-html/lit-html.js';
 export class AlitElement extends LitElement {
-    constructor() {
-        super(...arguments);
-        this._$ = {};
-    }
     static get __listeners() { return []; }
     static get __observers() { return {}; }
     /**
@@ -14,13 +10,7 @@ export class AlitElement extends LitElement {
      * @param id Id of element
      */
     $(id) {
-        if (!this._$[id]) {
-            const e = this.shadowRoot.querySelector(`#${id}`);
-            if (e) {
-                this._$[id] = e;
-            }
-        }
-        return this._$[id];
+        return this.shadowRoot.querySelector(`#${id}`);
     }
     /**
      * Find first element macthing the slector in the element's shadow root.

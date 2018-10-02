@@ -18,7 +18,6 @@ export declare class AlitElement extends LitElement {
     static readonly __observers: {
         [name: string]: ObserveHandler[];
     };
-    private _$;
     /**
      * Get element with specified ID in the element's shadow root
      * @param id Id of element

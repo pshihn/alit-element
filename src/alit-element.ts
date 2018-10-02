@@ -20,20 +20,13 @@ export type ObserveHandler = (changeRecords: ChangeRecord[]) => void;
 export class AlitElement extends LitElement {
   static get __listeners(): EventListenerDeclaration[] { return []; }
   static get __observers(): { [name: string]: ObserveHandler[] } { return {}; }
-  private _$: { [id: string]: HTMLElement } = {};
 
   /**
    * Get element with specified ID in the element's shadow root
    * @param id Id of element
    */
   $(id: string): HTMLElement {
-    if (!this._$[id]) {
-      const e = this.shadowRoot!.querySelector(`#${id}`) as HTMLElement;
-      if (e) {
-        this._$[id] = e;
-      }
-    }
-    return this._$[id];
+    return this.shadowRoot!.querySelector(`#${id}`) as HTMLElement;
   }
 
   /**
